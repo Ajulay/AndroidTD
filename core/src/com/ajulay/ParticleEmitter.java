@@ -1,4 +1,4 @@
-package ru.agapov.game;
+package com.ajulay;
 
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -10,8 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class ParticleEmitter extends ObjectPool<Particle> {
     private TextureRegion oneParticle;
 
-    public ParticleEmitter(TextureRegion oneParticle) {
-        this.oneParticle = oneParticle;
+    public ParticleEmitter() {
+        this.oneParticle = Assets.getInstance().getAtlas().findRegion("star16");
     }
 
     @Override

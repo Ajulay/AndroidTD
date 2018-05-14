@@ -1,7 +1,5 @@
-image_index cost fire_rate damage radius
-0 50 0.1 2 300
-1 100 0.5 10 500
-0 150 0.35 8 550
-1 200 0.7 25 150
-0 250 0.5 25 200
-1 300 0.35 25 350
+turret_id level image_x image_y cost fire_rate damage radius
+0 1 0 0 50 0.1 2 300
+0 2 1 0 50 0.1 4 400
+1 1 0 1 20 0.5 5 800
+1 2 1 1 20 0.5 8 1200

@@ -1,4 +1,4 @@
-package ru.agapov.game;
+package com.ajulay;
 
 import java.util.ArrayList;
 import java.util.List;

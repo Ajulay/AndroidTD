@@ -1,4 +1,4 @@
-package ru.agapov.game;
+package com.ajulay;
 
 /**
  * Created by FlameXander on 23.09.2017.

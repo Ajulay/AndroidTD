@@ -1,4 +1,4 @@
-package ru.agapov.game;
+package com.ajulay;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.assets.loaders.FileHandleResolver;

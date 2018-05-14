@@ -1,13 +1,12 @@
-package ru.agapov.game.gui;
+package com.ajulay.gui;
 
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import ru.agapov.game.Assets;
-import ru.agapov.game.PlayerInfo;
-
+import com.ajulay.Assets;
+import com.ajulay.PlayerInfo;
 
 public class UpperPanel {
     private Group core;
@@ -16,6 +15,10 @@ public class UpperPanel {
     private Label hpLabel;
     private StringBuilder tmpSB;
     private BitmapFont font36;
+
+    public void setPlayerInfo(PlayerInfo playerInfo) {
+        this.playerInfo = playerInfo;
+    }
 
     public UpperPanel(PlayerInfo playerInfo, Stage stage, int x, int y) {
         this.playerInfo = playerInfo;

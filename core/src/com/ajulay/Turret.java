@@ -1,44 +1,36 @@
-package ru.agapov.game;
+package com.ajulay;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
-public class Turret {
-    private GameScreen gameScreen;
+import java.io.Serializable;
+
+public class Turret implements Serializable {
+    private transient GameScreen gameScreen;
     private Map map;
-    private int type;
+    private int turretId;
+    private int level;
+    private int imageX;
+    private int imageY;
     private int damage;
-    private TextureRegion[] regions;
+    private transient TextureRegion[][] regions;
     private Vector2 position;
     private float angle;
     private float range;
     private float fireDelay;
     private float fireTimer;
     private float rotationSpeed;
-    private Monster target;
+    private transient Monster target;
     private boolean active;
-    private int cost;
-    private boolean maxUpg;
-   //--------------------------------
-    private int level;            //adding
-    public boolean isMaxUpg() {   //adding
-        return maxUpg;
+
+    public int getTurretId() {
+        return turretId;
     }
 
     public int getLevel() {
         return level;
-    }
-
-    public void setMaxUpg(boolean maxUpg) {
-        this.maxUpg = maxUpg;
-    }
-
-   //------------------------------------------
-
-    public int getCost() {
-        return cost;
     }
 
     public boolean isActive() {
@@ -55,7 +47,7 @@ public class Turret {
 
     private Vector2 tmpVector;
 
-    public Turret(TextureRegion[] regions, GameScreen gameScreen, Map map, float cellX, float cellY) {
+    public Turret(TextureRegion[][] regions, GameScreen gameScreen, Map map, float cellX, float cellY) {
         this.regions = regions;
         this.gameScreen = gameScreen;
         this.map = map;
@@ -67,24 +59,27 @@ public class Turret {
         this.angle = 0;
         this.tmpVector = new Vector2(0, 0);
         this.active = false;
-
     }
 
-    public void activate(TurretEmitter.TurretTemplate template, int cellX, int cellY, int level) {
+    public void reload(TextureRegion[][] regions, GameScreen gameScreen) {
+        this.regions = regions;
+        this.gameScreen = gameScreen;
+    }
+
+    public void activate(TurretEmitter.TurretTemplate template, int cellX, int cellY) {
         this.range = template.getRadius();
         this.fireDelay = template.getFireRate();
-        this.type = template.getImageIndex();
+        this.turretId = template.getTurretId();
+        this.level = template.getLevel();
+        this.imageX = template.getImageIndexX();
+        this.imageY = template.getImageIndexY();
         this.damage = template.getDamage();
         setTurretToCell(cellX, cellY);
         active = true;
-        this.cost = template.getCost();
-        this.level = level;
-
     }
 
     public void deactivate() {
         active = false;
-        maxUpg = false;
     }
 
     public void setTurretToCell(int cellX, int cellY) {
@@ -94,7 +89,7 @@ public class Turret {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(regions[type], position.x - 40, position.y - 40, 40, 40, 80, 80, 1, 1, angle);
+        batch.draw(regions[imageX][imageY], position.x - 40, position.y - 40, 40, 40, 80, 80, 1, 1, angle);
     }
 
     public boolean checkMonsterInRange(Monster monster) {

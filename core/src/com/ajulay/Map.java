@@ -1,17 +1,15 @@
-package ru.agapov.game;
+package com.ajulay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
-import java.io.BufferedReader;
-import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Map {
+public class Map implements Serializable {
     public class Route {
         private int startX, startY;
         private Vector2[] directions;
@@ -69,13 +67,15 @@ public class Map {
         }
     }
 
-    private int width;
-    private int height;
+    private String name;
 
-    private CellType[][] data;
-    private List<Route> routes;
-    private TextureRegion textureGrass;
-    private TextureRegion textureRoad;
+    private transient int width;
+    private transient int height;
+
+    private transient CellType[][] data;
+    private transient List<Route> routes;
+    private transient TextureRegion textureGrass;
+    private transient TextureRegion textureRoad;
 
     public List<Route> getRoutes() {
         return routes;
@@ -89,31 +89,21 @@ public class Map {
         return height;
     }
 
-    public Map(TextureAtlas atlas) {
-        textureGrass = atlas.findRegion("grass");
-        textureRoad = atlas.findRegion("road");
-        loadMap("map1");
+    public Map() {
+        textureGrass = Assets.getInstance().getAtlas().findRegion("grass");
+        textureRoad = Assets.getInstance().getAtlas().findRegion("road");
+        name = "map1";
+        loadMap(name);
+    }
+
+    public void reload() {
+        textureGrass = Assets.getInstance().getAtlas().findRegion("grass");
+        textureRoad = Assets.getInstance().getAtlas().findRegion("road");
+        loadMap(name);
     }
 
     public void loadMap(String mapName) {
-        BufferedReader br = null;
-        List<String> lines = new ArrayList<String>();
-
-        try {
-            br = Gdx.files.internal(mapName + ".dat").reader(8192);
-            String str;
-            while ((str = br.readLine()) != null) {
-                lines.add(str);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        List<String> lines = Utilities.readAllLinesFromFile(Gdx.files.internal(mapName + ".dat"));
         for (int i = 0; i < lines.size(); i++) {
             if (lines.get(i).equals("routes")) {
                 height = i;

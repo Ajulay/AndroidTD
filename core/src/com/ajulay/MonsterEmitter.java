@@ -1,17 +1,15 @@
-package ru.agapov.game;
+package com.ajulay;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 import java.io.BufferedReader;
-import java.io.IOException;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
 
-public class MonsterEmitter {
-    public class Wave {
+public class MonsterEmitter implements Serializable {
+    public class Wave implements Serializable {
         private float time;
         private int routeIndex;
         private int monstersCount;
@@ -33,33 +31,24 @@ public class MonsterEmitter {
         return monsters;
     }
 
-    public MonsterEmitter(TextureAtlas atlas, Map map, int maxSize) {
+    public MonsterEmitter(Map map, int maxSize) {
         this.map = map;
         this.monsters = new Monster[maxSize];
         for (int i = 0; i < monsters.length; i++) {
-            this.monsters[i] = new Monster(atlas, map, 0);
+            this.monsters[i] = new Monster(map, 0);
         }
         loadScenario("scenario1");
     }
 
+    public void reload() {
+        for (int i = 0; i < monsters.length; i++) {
+            monsters[i].reload();
+        }
+    }
+
     private void loadScenario(String scenario) {
         BufferedReader br = null;
-        List<String> lines = new ArrayList<String>();
-        try {
-            br = Gdx.files.internal(scenario + ".dat").reader(8192);
-            String str;
-            while ((str = br.readLine()) != null) {
-                lines.add(str);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                br.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        List<String> lines = Utilities.readAllLinesFromFile(Gdx.files.internal(scenario + ".dat"));
         lines.remove(0);
         waves = new Wave[lines.size()];
         for (int i = 0; i < lines.size(); i++) {
@@ -104,6 +93,4 @@ public class MonsterEmitter {
             }
         }
     }
-
-
 }

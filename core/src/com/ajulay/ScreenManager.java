@@ -1,4 +1,4 @@
-package ru.agapov.game;
+package com.ajulay;
 
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Camera;
@@ -15,7 +15,7 @@ public class ScreenManager {
     public static final int WORLD_WIDTH = 1280;
     public static final int WORLD_HEIGHT = 720;
 
-    private TowerDefence game;
+    private TowerDefenseGame game;
     private SpriteBatch batch;
     private GameScreen gameScreen;
     private LoadingScreen loadingScreen;
@@ -37,7 +37,7 @@ public class ScreenManager {
     private ScreenManager() {
     }
 
-    public void init(TowerDefence game, SpriteBatch batch) {
+    public void init(TowerDefenseGame game, SpriteBatch batch) {
         this.game = game;
         this.batch = batch;
         this.camera = new OrthographicCamera(WORLD_WIDTH, WORLD_HEIGHT);
